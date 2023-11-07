@@ -1,8 +1,11 @@
 # FastRPC
 
 > This project is a WIP but the core implementation works.
-> 
-> There is outstanding work on the API in Javascript client function names, which do not indicate request type ('GET', 'POST').
+>
+> There is outstanding work on the API in Javascript client function names, which do not indicate request type ('GET', 'POST'). Non-'GET' routes must be defined manually using FastAPI routes.
+>
+> Non-GET routes that use Pydantic types as required function parameters unpack request bodies into JSON validated by the Pydantic type of the parameters. This is the behavior of FastRPC and the Typescript client methods. The outstanding work here is to automatically name non-GET routes.
+>
 > 
 > A possible killer feature would be merging multiple endpoints with the same name (e.g. `GET /api/records/{record_id}` and `GET /api/records`) into one Javascript client method `pythonClient.records(...)` where `record_id` is optional, hitting different endpoints based on parameters provided (which is how web routing works). Currently, each web endpoint has one client method.
 > 
