@@ -1,0 +1,282 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/python/hello/message": {
+      "get": {
+        "summary": "Hello",
+        "description": "Retuns a message depending on the route.",
+        "operationId": "hello_api_python_hello_message_get",
+        "parameters": [
+          {
+            "name": "message",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Message"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hello"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/python/hello": {
+      "get": {
+        "summary": "Hello World",
+        "description": "Retuns a Hello World message",
+        "operationId": "hello_world_api_python_hello_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HelloWorld"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/python/get_records": {
+      "get": {
+        "summary": "Get Records",
+        "description": "Get list of record names. These should all be valid inputs to `get_record`.",
+        "operationId": "get_records_api_python_get_records_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array",
+                  "title": "Response Get Records Api Python Get Records Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/python/get_record/record_id": {
+      "get": {
+        "summary": "Get Record",
+        "description": "Get record details and plots",
+        "operationId": "get_record_api_python_get_record_record_id_get",
+        "parameters": [
+          {
+            "name": "record_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Record Id"
+            }
+          },
+          {
+            "name": "n_points",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "title": "N Points"
+            }
+          },
+          {
+            "name": "n_figs",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 3,
+              "title": "N Figs"
+            }
+          },
+          {
+            "name": "mirror_message",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "default mirror message",
+              "title": "Mirror Message"
+            }
+          },
+          {
+            "name": "n_rows",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "title": "N Rows"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Hello": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "Hello"
+      },
+      "HelloWorld": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Hello World"
+          }
+        },
+        "type": "object",
+        "title": "HelloWorld"
+      },
+      "RecordDetails": {
+        "properties": {
+          "record_id": {
+            "type": "string",
+            "title": "Record Id"
+          },
+          "record_details": {
+            "type": "string",
+            "title": "Record Details"
+          },
+          "plot_json_objects": {
+            "items": {
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Plot Json Objects"
+          },
+          "mirror_message": {
+            "type": "string",
+            "title": "Mirror Message"
+          },
+          "mirror_n_rows": {
+            "type": "integer",
+            "title": "Mirror N Rows"
+          }
+        },
+        "type": "object",
+        "required": [
+          "record_id",
+          "record_details",
+          "plot_json_objects",
+          "mirror_message",
+          "mirror_n_rows"
+        ],
+        "title": "RecordDetails",
+        "description": "Details for an record.\n:param str mirror_message: message to be returned in a response if sent in a request"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
