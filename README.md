@@ -9,7 +9,7 @@
 > 
 > A possible killer feature would be merging multiple endpoints with the same name (e.g. `GET /api/records/{record_id}` and `GET /api/records`) into one Javascript client method `pythonClient.records(...)` where `record_id` is optional, hitting different endpoints based on parameters provided (which is how web routing works). Currently, each web endpoint has one client method.
 >
-> TODO: add an option `regenerateSchemaOnlyWhenChanges``. When `True`, the `openapi.json` schema file is only written to if it changes, rather than on every save, in case filesystem modified dates are considered useful.
+> TODO: add an option `regenerateSchemaOnlyWhenChanges`. When `True`, the `openapi.json` schema file is only written to if it changes, rather than on every save, in case filesystem modified dates are considered useful.
 > 
 >  This project requires packaging and is not on Pypi.
 
