@@ -8,6 +8,8 @@
 >
 > 
 > A possible killer feature would be merging multiple endpoints with the same name (e.g. `GET /api/records/{record_id}` and `GET /api/records`) into one Javascript client method `pythonClient.records(...)` where `record_id` is optional, hitting different endpoints based on parameters provided (which is how web routing works). Currently, each web endpoint has one client method.
+>
+> TODO: add an option `regenerateSchemaOnlyWhenChanges``. When `True`, the `openapi.json` schema file is only written to if it changes, rather than on every save, in case filesystem modified dates are considered useful.
 > 
 >  This project requires packaging and is not on Pypi.
 
@@ -71,7 +73,7 @@ By consuming an OpenAPI spec with a Typescript code-gen tool called [`openapi-ty
 > ```
 > Your IDE wil autocomplete `record.title` and complain about extraneous arguments!
 
-Exporting an `openapi.json` file is so fast that we can do it on every live-reload of the FastAPI server. Consuming the `openapi.json` file to code-gen a type-aware `pythonClient` SDk in Typescript is so fast that we can do it every time `openapi.json` is generated.
+Exporting an `openapi.json` file is so fast that we can do it on every live-reload of the FastAPI server. Consuming the `openapi.json` file to code-gen a type-aware `pythonClient` SDk in Typescript is so fast that we can do it every time `openapi.json` is generated. We use `npm-watch` with `runOnChangeOnly` to observe changes in `openapi.json`.
 
 As soon as we save our Python server definition, our Typescript SDK object is aware of the routes (as client methods), route parameters and their types (signatures of those methods), and return types of those routes (as return types of methods), even if those return types are classes containing data structures. All in exchange for type annotating Python functions!
 
