@@ -35,7 +35,7 @@ async def hello_world() -> HelloWorld:
 	return HelloWorld()
 
 @app.get_RPC
-async def get_records() -> list[str]:
+async def records() -> list[str]:
 	'''Get list of record names. These should all be valid inputs to `get_record`.'''
 	return ['record_1', 'record_2']
 
@@ -67,7 +67,7 @@ def get_random_fig(n_points):
 
 
 @app.get_RPC
-async def get_record(
+async def record(
 	record_id: str,
 	n_points: int = 100,
 	n_figs: int = 3,

@@ -19,7 +19,7 @@ export class DefaultService {
      * @returns Hello Successful Response
      * @throws ApiError
      */
-    public helloApiPythonHelloMessageGet({
+    public getHelloMessage({
         message,
     }: {
         message: string,
@@ -42,7 +42,7 @@ export class DefaultService {
      * @returns HelloWorld Successful Response
      * @throws ApiError
      */
-    public helloWorldApiPythonHelloGet(): CancelablePromise<HelloWorld> {
+    public getHello(): CancelablePromise<HelloWorld> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/api/python/hello',
@@ -50,25 +50,25 @@ export class DefaultService {
     }
 
     /**
-     * Get Records
+     * Records
      * Get list of record names. These should all be valid inputs to `get_record`.
      * @returns string Successful Response
      * @throws ApiError
      */
-    public getRecordsApiPythonGetRecordsGet(): CancelablePromise<Array<string>> {
+    public getRecords(): CancelablePromise<Array<string>> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/python/get_records',
+            url: '/api/python/records',
         });
     }
 
     /**
-     * Get Record
+     * Record
      * Get record details and plots
      * @returns RecordDetails Successful Response
      * @throws ApiError
      */
-    public getRecordApiPythonGetRecordRecordIdGet({
+    public getRecordRecordId({
         recordId,
         nPoints = 100,
         nFigs = 3,
@@ -83,7 +83,7 @@ export class DefaultService {
     }): CancelablePromise<RecordDetails> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/python/get_record/{record_id}',
+            url: '/api/python/record/{record_id}',
             path: {
                 'record_id': recordId,
             },

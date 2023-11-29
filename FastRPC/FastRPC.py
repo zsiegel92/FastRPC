@@ -6,6 +6,19 @@ import inspect
 from inspect import Parameter
 import json
 import os
+import re
+from fastapi.routing import APIRoute
+
+
+# def default_generate_unique_id(route: "APIRoute") -> str:
+#     operation_id = route.name + route.path_format
+#     operation_id = re.sub(r"\W", "_", operation_id)
+#     assert route.methods
+#     operation_id = operation_id + "_" + list(route.methods)[0].lower()
+#     return operation_id
+
+
+
 
 
 class FastRPC(FastAPI):
@@ -14,12 +27,21 @@ class FastRPC(FastAPI):
         self,
         *args,
         prefix=None,
-        openapi_filename='openapi.json',
+        openapi_filename='openapi.json',  # TODO: use FastAPI(..., openapi_url)?
         openapi_dir=None,
         quiet=True,
         **kwargs,
     ):
-        super().__init__(*args, lifespan=lifespan, **kwargs)
+        self._prefix=prefix
+        self.route_signatures = set()
+        
+        # TODO: use openapi_url kwarg in super().__init__
+        super().__init__(
+            *args,
+            lifespan=lifespan,
+            generate_unique_id_function=self.get_route_unique_id,
+            **kwargs,
+        )
         self.router__ = APIRouter(prefix=prefix)
         self.quiet = quiet
 
@@ -27,9 +49,19 @@ class FastRPC(FastAPI):
             openapi_dir = __file__.rsplit('/', 1)[0]
         openapi_path = os.path.join(openapi_dir, openapi_filename)
         self.openapi_path = openapi_path
-        self.route_signatures = set()
+        
         # self.on_event('startup')(self.export_openapi_spec) # deprecated - use lifespan API
 
+    # TODO: improve this! It determines the name of the TS RPC function
+    # must be unique, should be as succinct as possible
+    def get_route_unique_id(self, route: "APIRoute") -> str:
+        operation_id = route.path_format.removeprefix(self._prefix)
+        operation_id = re.sub(r"\W", "_", operation_id).lstrip("_").rstrip("_")
+        # assert route.methods
+        operation_id =list(route.methods)[0].lower() + "_" + operation_id 
+        # route.endpoint.__name__
+        return operation_id
+    
     def get_route(self, fn, sibling=None):
         if sibling is not None:
             route_base = sibling.__name__
@@ -39,8 +71,9 @@ class FastRPC(FastAPI):
         arg_names = get_required_argument_names(
             fn)  # fn(a, b, c=5, d=None) -> ['a', 'b']
         bracketed_arg_names = bracketed(arg_names)
-        route = '/'.join((f'/{route_base}',
-                          *bracketed_arg_names))  # fn(a, b, c=5, d=None) -> '/fn/a/b'
+        route = '/'.join(
+            (f'/{route_base}',
+             *bracketed_arg_names))  # fn(a, b, c=5, d=None) -> '/fn/a/b'
         route_name_uses = 1
         while route in self.route_signatures:
             route_name_uses += 1
@@ -97,10 +130,12 @@ def get_required_argument_names(fn: Callable) -> list[str]:
         for arg_name, param in inspect.signature(fn).parameters.items()
         if param.default is Parameter.empty
     ]
-    
+
+
 def bracketed(args: list[str]) -> list[str]:
     return [f'{{{arg}}}' for arg in args]
-     
+
+
 @asynccontextmanager
 async def lifespan(application: FastAPI):
     await application.startup()

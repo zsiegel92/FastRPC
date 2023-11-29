@@ -16,14 +16,13 @@ const N_POINTS_PER_PLOT = Number(process.env.N_POINTS_PER_PLOT) || 10000;
 
 export default async function Home() {
   // const output = await (await fetch('http://localhost:8000/api/python')).json()
-  let resp: RecordDetails =
-    await py.default.getRecordApiPythonGetRecordRecordIdGet({
-      recordId: "1",
-      nPoints: 5000,
-      nFigs: 20,
-      mirrorMessage: "JAVASCRIPT-ORIGINATED MESSAGE",
-      nRows: 5,
-    });
+  let resp: RecordDetails = await py.default.getRecordRecordId({
+    recordId: "1",
+    nPoints: 1000,
+    nFigs: 3,
+    mirrorMessage: "JAVASCRIPT-ORIGINATED MESSAGE",
+    nRows: 2,
+  });
   let plot_json_objects = resp.plot_json_objects;
   console.log("MIRROR MESSAGE");
   console.log(resp.mirror_message);

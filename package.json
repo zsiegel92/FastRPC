@@ -5,10 +5,9 @@
   "scripts": {
     "fastRPC": "venv/bin/python3 -m uvicorn test_fastRPC:app --reload",
     "next-dev": "next dev",
-    "dev": "concurrently \"npm run next-dev\" \"npm run fastRPC\" \"npm run watch-build-openapi-types\"",
+    "dev": "concurrently \"npm run next-dev\" \"npm run fastRPC\" \"npm run watch-gen-client\"",
     "watch-gen-client": "npm-watch gen-client",
-    "gen-client": "npx openapi-typescript-codegen -i FastRPC/openapi.json -o py_client --name PythonClient --useOptions --exportSchemas true",
-    "dev-back-and-types": "concurrently \"npm run fastapi-dev\" \"npm run watch-gen-client\""
+    "gen-client": "npx openapi-typescript-codegen -i FastRPC/openapi.json -o py_client --name PythonClient --useOptions --exportSchemas true"
   },
   "dependencies": {
     "@prisma/client": "^5.3.1",
@@ -33,23 +32,11 @@
     "typescript": "5.0.4"
   },
   "watch": {
-    "build-openapi-types": {
-      "patterns": [
-        "api"
-      ],
-      "extensions": "json,txt"
-    },
     "gen-client": {
       "patterns": [
-        "api"
+        "FastRPC"
       ],
-      "extensions": "json,txt"
-    },
-    "build": {
-      "patterns": [
-        "app"
-      ],
-      "extensions": "js,jsx,html,ts,tsx"
+      "extensions": "json"
     }
   },
   "devDependencies": {

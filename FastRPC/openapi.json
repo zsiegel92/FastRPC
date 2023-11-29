@@ -9,7 +9,7 @@
       "get": {
         "summary": "Hello",
         "description": "Retuns a message depending on the route.",
-        "operationId": "hello_api_python_hello__message__get",
+        "operationId": "get_hello__message",
         "parameters": [
           {
             "name": "message",
@@ -49,7 +49,7 @@
       "get": {
         "summary": "Hello World",
         "description": "Retuns a Hello World message",
-        "operationId": "hello_world_api_python_hello_get",
+        "operationId": "get_hello",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -64,11 +64,11 @@
         }
       }
     },
-    "/api/python/get_records": {
+    "/api/python/records": {
       "get": {
-        "summary": "Get Records",
+        "summary": "Records",
         "description": "Get list of record names. These should all be valid inputs to `get_record`.",
-        "operationId": "get_records_api_python_get_records_get",
+        "operationId": "get_records",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -79,7 +79,7 @@
                     "type": "string"
                   },
                   "type": "array",
-                  "title": "Response Get Records Api Python Get Records Get"
+                  "title": "Response Get Records"
                 }
               }
             }
@@ -87,11 +87,11 @@
         }
       }
     },
-    "/api/python/get_record/{record_id}": {
+    "/api/python/record/{record_id}": {
       "get": {
-        "summary": "Get Record",
+        "summary": "Record",
         "description": "Get record details and plots",
-        "operationId": "get_record_api_python_get_record__record_id__get",
+        "operationId": "get_record__record_id",
         "parameters": [
           {
             "name": "record_id",
