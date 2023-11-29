@@ -1,0 +1,53 @@
+{
+  "compilerOptions": {
+    // "target": "es5",
+    "target": "es2022",
+    // "allowPrivateFields": true,
+    // "target": "ESNext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      // "esnext",
+      "es2022"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    // "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+      "@/components/*": [
+        "./app/components/*"
+      ],
+      "@/py_client/*": [
+        "./py_client/*"
+      ]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "./out/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

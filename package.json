@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "fastRPC": "venv/bin/python -m pip install -r requirements.txt && venv/bin/python3 -m uvicorn api.index:app --reload",
+    "fastRPC": "venv/bin/python3 -m uvicorn test_fastRPC:app --reload",
     "next-dev": "next dev",
     "dev": "concurrently \"npm run next-dev\" \"npm run fastRPC\" \"npm run watch-build-openapi-types\"",
     "watch-gen-client": "npm-watch gen-client",

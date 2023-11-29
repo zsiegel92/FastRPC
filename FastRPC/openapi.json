@@ -5,15 +5,15 @@
     "version": "0.1.0"
   },
   "paths": {
-    "/api/python/hello/message": {
+    "/api/python/hello/{message}": {
       "get": {
         "summary": "Hello",
         "description": "Retuns a message depending on the route.",
-        "operationId": "hello_api_python_hello_message_get",
+        "operationId": "hello_api_python_hello__message__get",
         "parameters": [
           {
             "name": "message",
-            "in": "query",
+            "in": "path",
             "required": true,
             "schema": {
               "type": "string",
@@ -87,15 +87,15 @@
         }
       }
     },
-    "/api/python/get_record/record_id": {
+    "/api/python/get_record/{record_id}": {
       "get": {
         "summary": "Get Record",
         "description": "Get record details and plots",
-        "operationId": "get_record_api_python_get_record_record_id_get",
+        "operationId": "get_record_api_python_get_record__record_id__get",
         "parameters": [
           {
             "name": "record_id",
-            "in": "query",
+            "in": "path",
             "required": true,
             "schema": {
               "type": "string",

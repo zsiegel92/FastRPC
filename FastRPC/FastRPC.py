@@ -38,13 +38,14 @@ class FastRPC(FastAPI):
 
         arg_names = get_required_argument_names(
             fn)  # fn(a, b, c=5, d=None) -> ['a', 'b']
+        bracketed_arg_names = bracketed(arg_names)
         route = '/'.join((f'/{route_base}',
-                          *arg_names))  # fn(a, b, c=5, d=None) -> '/fn/a/b'
+                          *bracketed_arg_names))  # fn(a, b, c=5, d=None) -> '/fn/a/b'
         route_name_uses = 1
         while route in self.route_signatures:
             route_name_uses += 1
             route = '/'.join((f'/{route_base}{route_name_uses}',
-                              *arg_names))  # -> '/fn2/a/b'
+                              *bracketed_arg_names))  # -> '/fn2/a/b'
         self.route_signatures.add(route)
         return route
 
@@ -96,8 +97,10 @@ def get_required_argument_names(fn: Callable) -> list[str]:
         for arg_name, param in inspect.signature(fn).parameters.items()
         if param.default is Parameter.empty
     ]
-
-
+    
+def bracketed(args: list[str]) -> list[str]:
+    return [f'{{{arg}}}' for arg in args]
+     
 @asynccontextmanager
 async def lifespan(application: FastAPI):
     await application.startup()
