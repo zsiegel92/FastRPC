@@ -9,3 +9,4 @@ out_remote/
 out_local/
 **/venv/
 **/venv2/
+**/.DS_Store
