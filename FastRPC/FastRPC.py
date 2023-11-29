@@ -82,6 +82,9 @@ class FastRPC(FastAPI):
         self.route_signatures.add(route)
         return route
 
+    def RPC(self,*args, **kwargs):
+        return self.get_RPC(*args, **kwargs)
+    
     def get_RPC(self, *args, sibling=None, **kwargs):
         if len(args) > 0:
             fn_or_route = args[0]

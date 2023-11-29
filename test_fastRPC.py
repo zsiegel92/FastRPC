@@ -23,18 +23,18 @@ class Hello(BaseModel):
 class HelloWorld(Hello):
 	message: str = 'Hello World'
 
-@app.get_RPC
+@app.RPC
 async def hello(message: str) -> Hello:
 	'''Retuns a message depending on the route.'''
 	return {"message": message}
 
 
-@app.get_RPC(sibling=hello)
+@app.RPC(sibling=hello)
 async def hello_world() -> HelloWorld:
 	'''Retuns a Hello World message'''
 	return HelloWorld()
 
-@app.get_RPC
+@app.RPC
 async def records() -> list[str]:
 	'''Get list of record names. These should all be valid inputs to `get_record`.'''
 	return ['record_1', 'record_2']
@@ -66,7 +66,7 @@ def get_random_fig(n_points):
 	return fig
 
 
-@app.get_RPC
+@app.RPC
 async def record(
 	record_id: str,
 	n_points: int = 100,
