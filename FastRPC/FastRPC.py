@@ -8,16 +8,7 @@ import json
 import os
 import re
 from fastapi.routing import APIRoute
-
-
-# def default_generate_unique_id(route: "APIRoute") -> str:
-#     operation_id = route.name + route.path_format
-#     operation_id = re.sub(r"\W", "_", operation_id)
-#     assert route.methods
-#     operation_id = operation_id + "_" + list(route.methods)[0].lower()
-#     return operation_id
-
-
+from fastapi.utils import generate_unique_id as default_generate_unique_id
 
 
 
@@ -34,6 +25,8 @@ class FastRPC(FastAPI):
     ):
         self._prefix=prefix
         self.route_signatures = set()
+        self.RPCs = set()
+        self.RPCs_map= {}
         
         # TODO: use openapi_url kwarg in super().__init__
         super().__init__(
@@ -54,12 +47,22 @@ class FastRPC(FastAPI):
 
     # TODO: improve this! It determines the name of the TS RPC function
     # must be unique, should be as succinct as possible
+    # TODO: remove "argument" path params - ones surrounded by `{}`
     def get_route_unique_id(self, route: "APIRoute") -> str:
+        default_uid = default_generate_unique_id(route)
         operation_id = route.path_format.removeprefix(self._prefix)
         operation_id = re.sub(r"\W", "_", operation_id).lstrip("_").rstrip("_")
         # assert route.methods
         operation_id =list(route.methods)[0].lower() + "_" + operation_id 
         # route.endpoint.__name__
+        RPC_uses = 1
+        base_id = operation_id
+        while operation_id in self.RPCs:
+            RPC_uses += 1
+            operation_id = f'{base_id}{RPC_uses}'
+            
+        self.RPCs_map[default_uid] = operation_id
+        self.RPCs.add(operation_id)
         return operation_id
     
     def get_route(self, fn, sibling=None):
