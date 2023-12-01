@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { Hello } from '../models/Hello';
 import type { HelloWorld } from '../models/HelloWorld';
+import type { Message } from '../models/Message';
 import type { RecordDetails } from '../models/RecordDetails';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -14,12 +15,37 @@ export class DefaultService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
 
     /**
+     * Pythonmessage
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public getPythonMessage({
+        message,
+        message2,
+    }: {
+        message: string,
+        message2: string,
+    }): CancelablePromise<Message> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/api/python/pythonMessage/{message}/{message2}',
+            path: {
+                'message': message,
+                'message2': message2,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
      * Hello
      * Retuns a message depending on the route.
      * @returns Hello Successful Response
      * @throws ApiError
      */
-    public getHelloMessage({
+    public getHello({
         message,
     }: {
         message: string,
@@ -42,7 +68,7 @@ export class DefaultService {
      * @returns HelloWorld Successful Response
      * @throws ApiError
      */
-    public getHello(): CancelablePromise<HelloWorld> {
+    public getHello1(): CancelablePromise<HelloWorld> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/api/python/hello',
@@ -68,7 +94,7 @@ export class DefaultService {
      * @returns RecordDetails Successful Response
      * @throws ApiError
      */
-    public getRecordRecordId({
+    public getRecord({
         recordId,
         nPoints = 100,
         nFigs = 3,

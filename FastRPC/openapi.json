@@ -5,11 +5,59 @@
     "version": "0.1.0"
   },
   "paths": {
+    "/api/python/pythonMessage/{message}/{message2}": {
+      "get": {
+        "summary": "Pythonmessage",
+        "operationId": "get_pythonMessage______",
+        "parameters": [
+          {
+            "name": "message",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Message"
+            }
+          },
+          {
+            "name": "message2",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Message2"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/python/hello/{message}": {
       "get": {
         "summary": "Hello",
         "description": "Retuns a message depending on the route.",
-        "operationId": "get_hello__message",
+        "operationId": "get_hello___",
         "parameters": [
           {
             "name": "message",
@@ -91,7 +139,7 @@
       "get": {
         "summary": "Record",
         "description": "Get record details and plots",
-        "operationId": "get_record__record_id",
+        "operationId": "get_record___",
         "parameters": [
           {
             "name": "record_id",
@@ -206,6 +254,20 @@
         },
         "type": "object",
         "title": "HelloWorld"
+      },
+      "Message": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "Message",
+        "description": "Details for an record.\n:param str mirror_message: message to be returned in a response if sent in a request"
       },
       "RecordDetails": {
         "properties": {

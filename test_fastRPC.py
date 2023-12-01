@@ -1,23 +1,40 @@
+from pydantic import BaseModel
+from FastRPC.FastRPC import FastRPC
+
 from fastapi import FastAPI, Query
 from typing import Annotated
-from pydantic import BaseModel
 import json
 import numpy as np
 import plotly.express as px
 from plotly.utils import PlotlyJSONEncoder
 
-from FastRPC.FastRPC import FastRPC
-
-
 app = FastRPC(prefix='/api/python')
 
+
+class Message(BaseModel):
+    '''
+	Details for an record.
+	:param str mirror_message: message to be returned in a response if sent in a request
+	'''
+    message: str
+    
+    
+    
+@app.RPC
+async def pythonMessage(
+	message: str,
+	message2: str, # a new input parameter
+)->Message: # a return type annotation
+    return {
+		'message' : f'You sent: "{message}" and "{message2}"'
+	}
 
 def encode_plotly_fig(fig):
 	return json.loads(json.dumps(fig.to_plotly_json(), cls=PlotlyJSONEncoder))
 
 
 class Hello(BaseModel):
-	message: str
+	message: str 
 
 
 class HelloWorld(Hello):
@@ -83,6 +100,11 @@ async def record(
 		'mirror_message': mirror_message,
 		'mirror_n_rows': n_rows,
 	}
+
+
+
+
+
 
 
 
