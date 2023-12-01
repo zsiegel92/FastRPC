@@ -17,6 +17,17 @@ The hardest part about "full-stack" web development may not be understanding bot
 
 FastRPC is a thin abstraction over FastAPI that turns the web server framework into an RPC ("remote procedure call") framework.
 
+
+# FastRPC Demo
+
+https://github.com/zsiegel92/FastRPC/assets/26341564/52f93c8c-573b-44f7-9066-d6ccfe134bc6
+
+> Notice in the above video:
+> - The Typescript client knows what the input to the RPC function should be.
+> - Whenever the Python server reloads (on save), the Typescript code-gen takes place and the Typescript client is immediately type-safe.
+> - All Pydantic input/output types that are part of the RPC endpoints can be imported into Typescript (again, code-gen on every save).
+> - The time it takes from saving the Python project to the Typescript LSP being fully aware of the client properties is around 4 seconds.
+
 ## Motivation
 
 ### Type specifications in routers
@@ -187,8 +198,3 @@ The resulting `pythonClient` object can be used in any Javascript runtime (NodeJ
 ### Custom `fetch`
 
 Any custom `fetch` function can be substituted into the client (e.g. to route to remote services or over a unix domain socket if on the same machine). The default is the runtime's default `fetch`; an overriden default `fetch` will be used by the client.
-
-# FastRPC Demo
-
-https://github.com/zsiegel92/FastRPC/assets/26341564/52f93c8c-573b-44f7-9066-d6ccfe134bc6
-
